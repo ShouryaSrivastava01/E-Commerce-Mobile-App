@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/routes.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -17,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         changeButton = true;
       });
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(milliseconds: 500));
       await Navigator.pushNamed(context, MyRoutes.homeRoute);
       setState(() {
         changeButton = false;
@@ -28,24 +30,22 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: context.canvasColor,
       child: SingleChildScrollView(
           child: Form(
         key: _formKey,
         child: Column(
           children: [
             Image.asset(
-              "assets/images/hello.png",
+              "assets/images/shopping.png",
               fit: BoxFit.cover,
-              height: 300,
             ),
-            SizedBox(
-              height: 20,
+            const SizedBox(
+              height: 20.0,
             ),
             Text(
-              "Welcome $name",
-              style: GoogleFonts.balooBhai(
-                  fontSize: 30, color: Colors.teal.shade900),
+              "Welcome",
+              style: TextStyle(fontSize: 30, color: context.accentColor),
             ),
             Padding(
               padding:
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   TextFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "enter username", labelText: "username"),
                     onChanged: (value) {
                       name = value;
@@ -62,38 +62,40 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextFormField(
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         hintText: "enter password", labelText: "password"),
                     validator: (value) {
-                      if (value!.isEmpty)
-                        return "Bhosdike password to daal";
-                      else if (value.length < 4)
-                        return "Madarchod thodi mehnt krle ";
+                      if (value!.isEmpty) {
+                        return "Please enter the password";
+                      } else if (value.length < 4) {
+                        return "Please enter the password of appropriate length";
+                      }
                       return null;
                     },
                   )
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Material(
-                color: Colors.deepPurple,
+                // ignore: deprecated_member_use
+                color: context.theme.buttonColor,
                 borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
                 child: InkWell(
                     onTap: () => moveToHome(context),
                     child: AnimatedContainer(
-                      duration: Duration(seconds: 2),
+                      duration: const Duration(milliseconds: 500),
                       height: 50,
                       width: changeButton ? 50 : 100,
                       alignment: Alignment.center,
                       child: changeButton
-                          ? Icon(
+                          ? const Icon(
                               Icons.done,
                               color: Colors.white,
                             )
-                          : Text(
+                          : const Text(
                               "Login",
                               style: TextStyle(
                                   color: Colors.white,
